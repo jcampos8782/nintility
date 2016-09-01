@@ -3,6 +3,8 @@ package me.jasoncampos.nintility.validation;
 import static com.google.inject.matcher.Matchers.annotatedWith;
 import static com.google.inject.matcher.Matchers.any;
 
+import javax.validation.Validation;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +26,6 @@ public class ValidationModule extends AbstractModule {
 		bindInterceptor(
 				any(),
 				annotatedWith(Validate.class),
-				new ValidationInterceptor());
+				new ValidationInterceptor(Validation.buildDefaultValidatorFactory()));
 	}
 }

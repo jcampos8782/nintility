@@ -3,9 +3,10 @@ package me.jasoncampos.nintility.validation;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
@@ -28,13 +29,19 @@ import org.slf4j.LoggerFactory;
  *
  * @author Jason Campos <jcampos8782@gmail.com>
  */
+@Singleton
 public class ValidationInterceptor implements MethodInterceptor {
 	private static final Logger logger = LoggerFactory.getLogger(ValidationInterceptor.class);
-	private final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+	private final ValidatorFactory validatorFactory;;
+
+	@Inject
+	public ValidationInterceptor(final ValidatorFactory validatorFactory) {
+		this.validatorFactory = validatorFactory;
+	}
 
 	@Override
 	public Object invoke(final MethodInvocation invocation) throws Throwable {
-		final Validator validator = factory.getValidator();
+		final Validator validator = validatorFactory.getValidator();
 		final Object[] arguments = invocation.getArguments();
 		final Set<ConstraintViolation<?>> allViolations = new LinkedHashSet<>();
 
