@@ -1,14 +1,21 @@
 package me.jasoncampos.validation;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import javax.validation.Path;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import javax.validation.metadata.ConstraintDescriptor;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.junit.Before;
@@ -16,11 +23,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import me.jasoncampos.nintility.validation.ValidationInterceptor;
 
@@ -51,7 +53,9 @@ public class ValidationInterceptorTest {
 
 	@Test(expected = ConstraintViolationException.class)
 	public void withValidationErrorsAnExceptionIsThrown() throws Throwable {
-		when(validator.validate(any())).thenReturn(new HashSet<>(Arrays.asList(mock(ConstraintViolation.class))));
+		final Set<ConstraintViolation<Object>> violations = new HashSet<>();
+		violations.add(createViolation());
+		when(validator.validate(any())).thenReturn(new HashSet<>(Arrays.asList(createViolation())));
 		interceptor.invoke(invocation);
 	}
 
@@ -71,4 +75,63 @@ public class ValidationInterceptorTest {
 		verify(invocation, times(1)).proceed();
 	}
 
+	private ConstraintViolation<Object> createViolation() {
+		return new ConstraintViolation<Object>() {
+
+			@Override
+			public String getMessage() {
+				return null;
+			}
+
+			@Override
+			public String getMessageTemplate() {
+				return null;
+			}
+
+			@Override
+			public Object getRootBean() {
+				return null;
+			}
+
+			@Override
+			public Class<Object> getRootBeanClass() {
+				return null;
+			}
+
+			@Override
+			public Object getLeafBean() {
+				return null;
+			}
+
+			@Override
+			public Object[] getExecutableParameters() {
+				return null;
+			}
+
+			@Override
+			public Object getExecutableReturnValue() {
+				return null;
+			}
+
+			@Override
+			public Path getPropertyPath() {
+				return null;
+			}
+
+			@Override
+			public Object getInvalidValue() {
+				return null;
+			}
+
+			@Override
+			public ConstraintDescriptor<?> getConstraintDescriptor() {
+				return null;
+			}
+
+			@Override
+			public <U> U unwrap(final Class<U> type) {
+				return null;
+			}
+		};
+	}
 }
