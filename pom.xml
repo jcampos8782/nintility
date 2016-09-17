@@ -3,7 +3,7 @@
    <modelVersion>4.0.0</modelVersion>
    <groupId>me.jasoncampos</groupId>
    <artifactId>nintility-pom</artifactId>
-   <version>0.1.0</version>
+   <version>0.1.1-SNAPSHOT</version>
    <packaging>pom</packaging>
    <modules>
       <module>nintility-validation</module>
@@ -13,7 +13,7 @@
      <url>https://github.com/jcampos8782/nintility</url>
      <connection>scm:git:git://github.com/jcampos8782/nintility.git</connection>
      <developerConnection>scm:git:git@github.com:jcampos8782/nintility.git</developerConnection>
-    <tag>nintility-pom-0.1.0</tag>
+    <tag>HEAD</tag>
   </scm>
     
   <distributionManagement>
